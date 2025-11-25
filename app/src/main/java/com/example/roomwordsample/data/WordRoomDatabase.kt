@@ -8,15 +8,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-/**
- * A classe de banco de dados principal do Room para este aplicativo.
- */
+
 @Database(entities = [Word::class], version = 1, exportSchema = false)
 abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao
 
-    // Callback para popular o banco de dados quando ele for criado
+
     private class WordDatabaseCallback(
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback() {
@@ -31,12 +29,9 @@ abstract class WordRoomDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(wordDao: WordDao) {
-            // Exclui todo o conteúdo
             wordDao.deleteAll()
 
-            // Adiciona palavras de exemplo.
-            // Usamos 'word =' para garantir que estamos preenchendo o campo certo,
-            // já que o ID é autogerado.
+
             var word = Word(word = "Hello")
             wordDao.insert(word)
 
@@ -54,7 +49,7 @@ abstract class WordRoomDatabase : RoomDatabase() {
 
         fun getDatabase(
             context: Context,
-            scope: CoroutineScope // Adicionamos o Scope como parâmetro
+            scope: CoroutineScope
         ): WordRoomDatabase {
 
             return INSTANCE ?: synchronized(this) {

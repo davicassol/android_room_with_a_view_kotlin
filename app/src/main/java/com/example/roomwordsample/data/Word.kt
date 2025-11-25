@@ -1,6 +1,6 @@
 package com.example.roomwordsample.data
 
-import androidx.room.Entity // <--- ESSA É A IMPORTANTE
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
 

@@ -15,8 +15,6 @@ class MainActivity : AppCompatActivity() {
 
     private val newWordActivityRequestCode = 1
 
-    // Instancia o ViewModel usando a Factory que criamos.
-    // O 'by viewModels' cuida do ciclo de vida para nós.
     private val wordViewModel: WordViewModel by viewModels {
         WordViewModelFactory((application as WordsApplication).repository)
     }
@@ -31,8 +29,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Observa o LiveData. Sempre que o banco de dados mudar,
-        // este código será executado e a lista na tela será atualizada.
+
         wordViewModel.allWords.observe(this) { words ->
             // Atualiza a cópia em cache das palavras no adaptador.
             words.let { adapter.submitList(it) }
@@ -46,15 +43,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // O que acontece quando o usuário volta da tela de "Adicionar Palavra"
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let { reply ->
-                // CORREÇÃO AQUI: Usamos 'word = reply' para especificar que estamos
-                // preenchendo o texto, e deixando o ID ser gerado automaticamente.
+
                 val word = Word(word = reply)
                 wordViewModel.insert(word)
             }

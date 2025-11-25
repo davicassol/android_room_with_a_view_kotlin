@@ -22,15 +22,13 @@ class NewWordActivity : AppCompatActivity() {
         button.setOnClickListener {
             val replyIntent = Intent()
             if (TextUtils.isEmpty(editWordView.text)) {
-                // Se o campo estiver vazio, cancelamos o resultado
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
-                // Se tiver texto, enviamos de volta para a MainActivity
                 val word = editWordView.text.toString()
                 replyIntent.putExtra(EXTRA_REPLY, word)
                 setResult(Activity.RESULT_OK, replyIntent)
             }
-            finish() // Fecha a activity e volta para a anterior
+            finish()
         }
     }
 
